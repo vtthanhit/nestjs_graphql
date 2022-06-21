@@ -9,13 +9,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import databaseConfig from './config/database.config';
+import jwtConfig from './config/jwt.config';
 import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: join(process.cwd(), `${process.env.NODE_ENV}.env`),
-      load: [databaseConfig],
+      load: [databaseConfig, jwtConfig],
     }),
     GraphQLModule.forRoot(<ApolloDriverConfig>{
       driver: ApolloDriver,
