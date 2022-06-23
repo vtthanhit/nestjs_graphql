@@ -7,16 +7,27 @@ type UserDTO {
   username: String!
 }
 
+type LoginResponseDTO {
+  access_token: String!
+  user: UserDTO!
+}
+
 type Query {
   user(username: String!): UserDTO!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): UserDTO!
+  login(loginUserDTO: LoginUserDTO!): LoginResponseDTO!
   signup(signUpDTO: SignUpDTO!): UserDTO!
 }
 
 input CreateUserInput {
+  username: String!
+  password: String!
+}
+
+input LoginUserDTO {
   username: String!
   password: String!
 }
