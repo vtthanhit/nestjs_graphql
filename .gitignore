@@ -36,4 +36,5 @@ lerna-debug.log*
 
 .prettierrc
 .eslintrc.js
+*.env
 graphql_nestjs

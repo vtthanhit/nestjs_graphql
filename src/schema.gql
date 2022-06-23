@@ -1,0 +1,28 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserDTO {
+  id: Float!
+  username: String!
+}
+
+type Query {
+  user(username: String!): UserDTO!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserDTO!
+  signup(signUpDTO: SignUpDTO!): UserDTO!
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+}
+
+input SignUpDTO {
+  username: String!
+  password: String!
+  confirm_password: String!
+}
