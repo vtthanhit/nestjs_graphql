@@ -21,6 +21,7 @@ type PostDTO {
 
 type Query {
   user(username: String!): UserDTO!
+  getPosts: [PostDTO!]!
 }
 
 type Mutation {
@@ -28,6 +29,7 @@ type Mutation {
   login(loginUserDTO: LoginUserDTO!): LoginResponseDTO!
   signup(signUpDTO: SignUpDTO!): UserDTO!
   createPost(createPostInput: CreatePostInput!): PostDTO!
+  updatePost(updatePostInput: UpdatePostInput!): PostDTO!
 }
 
 input CreateUserInput {
@@ -49,4 +51,10 @@ input SignUpDTO {
 input CreatePostInput {
   title: String!
   content: String!
+}
+
+input UpdatePostInput {
+  title: String
+  content: String
+  id: Float!
 }
