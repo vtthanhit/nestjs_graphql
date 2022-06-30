@@ -37,7 +37,16 @@ export class PostsResolver {
   }
 
   @Query(() => [PostDTO])
-  getPosts() {
-    return this.postsService.findAll();
+  getPostsByUser(@Args('userId') userId: number) {
+    return this.postsService.findAllByUser(userId);
+  }
+
+  @Mutation(() => [PostDTO])
+  @UseGuards(JwtAuthGuard)
+  deletePost(
+    @Args('id') id: number,
+    @CurrentUser() user: User,
+  ): Promise<Post[]> {
+    return this.postsService.delete(user.id, id);
   }
 }

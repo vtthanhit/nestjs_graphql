@@ -1,14 +1,10 @@
-import {
-  Injectable,
-  BadRequestException,
-  ForbiddenException,
-} from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreatePostInput } from './dto/create-post.input';
-import { Post } from './entities/post.entity';
 import { UpdatePostInput } from './dto/update-post.input';
+import { Post } from './entities/post.entity';
 import { User } from './../users/entities/user.entity';
 
 @Injectable()
@@ -29,16 +25,27 @@ export class PostsService {
     id: number,
     updatePostInput: UpdatePostInput,
   ): Promise<Post> {
-    const post = await this.postsRepository.findOne({ where: { id: id } });
+    await this.checkUser(userId, id);
+    await this.postsRepository.update(id, updatePostInput);
+
+    return this.postsRepository.findOne({ where: { id } });
+  }
+
+  async delete(userId: number, id: number): Promise<Post[]> {
+    await this.checkUser(userId, id);
+    await this.postsRepository.softDelete(id);
+
+    return this.findAllByUser(userId);
+  }
+
+  async findAllByUser(userId: number): Promise<Post[]> {
+    return await this.postsRepository.find({ where: { userId } });
+  }
+
+  private async checkUser(userId: number, id: number) {
+    const post = await this.postsRepository.findOne({ where: { id } });
     if (userId !== post.userId) {
       throw new ForbiddenException();
     }
-    await this.postsRepository.update(id, updatePostInput);
-
-    return this.postsRepository.findOne({ where: { id: id } });
-  }
-
-  findAll() {
-    return this.postsRepository.find();
   }
 }
