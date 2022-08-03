@@ -12,14 +12,25 @@ type LoginResponseDTO {
   user: UserDTO!
 }
 
+type PostDTO {
+  id: Float!
+  title: String!
+  content: String!
+  userId: Float!
+}
+
 type Query {
   user(username: String!): UserDTO!
+  getPostsByUser(userId: Float!): [PostDTO!]!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): UserDTO!
   login(loginUserDTO: LoginUserDTO!): LoginResponseDTO!
   signup(signUpDTO: SignUpDTO!): UserDTO!
+  createPost(createPostInput: CreatePostInput!): PostDTO!
+  updatePost(updatePostInput: UpdatePostInput!): PostDTO!
+  deletePost(id: Float!): [PostDTO!]!
 }
 
 input CreateUserInput {
@@ -36,4 +47,15 @@ input SignUpDTO {
   username: String!
   password: String!
   confirm_password: String!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+}
+
+input UpdatePostInput {
+  title: String
+  content: String
+  id: Float!
 }
